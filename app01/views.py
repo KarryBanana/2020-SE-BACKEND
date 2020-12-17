@@ -19,7 +19,7 @@ def responseTest(request):
 
 # 根据标题关键字获取文章列表
 @require_http_methods(["GET"])
-def getPaperInfoByKey(request):
+def getPaperListByKey(request):
     try:
         key = request.GET['key']
         startIndex = request.GET['startIndex']
@@ -37,7 +37,7 @@ def getPaperInfoByKey(request):
 
 # 根据文章关键词查找文章
 @require_http_methods(["GET"])
-def getPaperInfoByKeyword(request):
+def getPaperListByKeyword(request):
     try:
         keyword = request.GET['keyword']
         startIndex = request.GET['startIndex']
@@ -101,6 +101,7 @@ def login(request):
                 response['name'] = name
                 response['token'] = token
                 response['uid'] = user.uid
+                response['aid'] = user.aid
             else:
                 response['msg'] = "Wrong username or password,try again!"
                 response['error_num'] = 1

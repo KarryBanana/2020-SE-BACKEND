@@ -10,10 +10,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('test/',views.responseTest),
-    path('getPaperInfoByKey',views.getPaperInfoByKey),
+    path('getPaperListByKey',views.getPaperListByKey),
     path('login',views.login),
     path('register',views.register),
-    path('getPaperInfoByKeyword',views.getPaperInfoByKeyword),
+    path('getPaperListByKeyword',views.getPaperListByKeyword),
     path('getPaperInfoByID',views.getPaperInfoByID),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
