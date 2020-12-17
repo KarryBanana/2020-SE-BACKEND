@@ -13,4 +13,7 @@ urlpatterns = [
     path('getPaperInfoByKey',views.getPaperInfoByKey),
     path('login',views.login),
     path('register',views.register),
+    path('getPaperInfoByKeyword',views.getPaperInfoByKeyword),
+    path('getPaperInfoByID',views.getPaperInfoByID),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

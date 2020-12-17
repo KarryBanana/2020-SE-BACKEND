@@ -50,6 +50,18 @@ class Paper(models.Model):
     pdfURL = models.CharField(max_length=500, default="")
     abstract = models.TextField(max_length=5000, default="")
 
+    class Meta:
+        indexes = [
+            models.Index(
+                fields=['pid'],
+                name='pid',
+            ),
+            models.Index(
+                fields=['title'],
+                name='title',
+            ),
+        ]
+
 
 class AuthorOfPaper(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
@@ -91,7 +103,7 @@ class AuthorOrg(models.Model):
 class User(models.Model):
     uid = models.AutoField(primary_key=True)
     aid = models.IntegerField(default=-1)
-    password = models.CharField(max_length=50, null=False,blank=False,default="a12345678")
+    password = models.CharField(max_length=50, null=False, blank=False, default="a12345678")
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=False, null=False)
     intro = models.CharField(default="", max_length=200)

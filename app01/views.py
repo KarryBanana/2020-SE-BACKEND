@@ -5,6 +5,7 @@ from app01.models import *
 import uuid
 from app01 import models
 
+
 # token = uuid.uuid4()
 # models.UserToken.objects.update_or_create(user=user, defaults={'token': token})
 
@@ -16,14 +17,37 @@ def responseTest(request):
     return HttpResponse("66666")
 
 
+# 根据标题关键字获取文章列表
+@require_http_methods(["GET"])
 def getPaperInfoByKey(request):
     try:
         key = request.GET['key']
-        print(key)
-        paperList = Paper.objects.filter(title__icontains=key)
+        startIndex = request.GET['startIndex']
+        startIndex = int(startIndex)
+        paperList = Paper.objects.filter(title__icontains=key)[startIndex:startIndex+50]
         list = []
         for item in paperList:
-            list.append(object_to_json(item))
+            paper = object_to_json(item)
+            paper.pop('abstract')
+            list.append(paper)
+        return JsonResponse({"res": list})
+    except Exception as E:
+        return HttpResponse("Error occured")
+
+
+# 根据文章关键词查找文章
+@require_http_methods(["GET"])
+def getPaperInfoByKeyword(request):
+    try:
+        keyword = request.GET['keyword']
+        startIndex = request.GET['startIndex']
+        startIndex = int(startIndex)
+        keywordList = KeyWords.objects.filter(keyword__icontains=keyword)[startIndex:startIndex+50]
+        list = []
+        for item in keywordList:
+            paper = object_to_json(item.paper)
+            paper.pop('abstract')
+            list.append(paper)
         return JsonResponse({"res": list})
     except Exception as E:
         return HttpResponse("Error occured")
@@ -34,7 +58,7 @@ def register(request):  # 注册
     response = {}
     try:
         name = request.POST.get('name')
-        print("name",name)
+        print("name", name)
         password = request.POST.get('password')
         print(password)
         email = request.POST.get('email')
@@ -80,7 +104,7 @@ def login(request):
             else:
                 response['msg'] = "Wrong username or password,try again!"
                 response['error_num'] = 1
-                response['state'] =0
+                response['state'] = 0
         else:
             response['msg'] = "Wrong username or password,try again!"
             response['error_num'] = 2
@@ -91,3 +115,32 @@ def login(request):
         response['state'] = 0
 
     return JsonResponse(response)
+
+
+# 文章详情页（从搜索或其他界面进入）
+@require_http_methods(["GET"])
+def getPaperInfoByID(request):
+    try:
+        pid = request.GET['pid']
+        paper = Paper.objects.get(pid=pid)
+        res = object_to_json(paper)
+        authors = []
+        AutherList = AuthorOfPaper.objects.filter(paper=paper)
+        for record in AutherList:  # 只需要id name rank
+            au = object_to_json(record)
+            au.pop('id')
+            au.pop('paper_id')
+            au['name'] = record.author.name
+            authors.append(au)
+        keywords = []
+        keywordList = KeyWords.objects.filter(paper=paper)
+        for record in keywordList:  # 只需要id name rank
+            keywords.append(record.keyword)
+        urls = []
+        urlList = PaperURL.objects.filter(paper=paper)
+        for record in urlList:  # 只需要id name rank
+            urls.append(record.url)
+        return JsonResponse({"paperInfo": res,"authors":authors,"keywords":keywords,"urls":urls})
+    except Exception as E:
+        print(E)
+        return HttpResponse("Error occured")
