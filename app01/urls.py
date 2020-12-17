@@ -10,5 +10,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('test/',views.responseTest),
-    path('getPaperInfoByKey',views.getPaperInfoByKey)
+    path('getPaperInfoByKey',views.getPaperInfoByKey),
+    path('login',views.login),
+    path('register',views.register),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

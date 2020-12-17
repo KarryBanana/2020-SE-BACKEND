@@ -16,6 +16,7 @@ class Author(models.Model):
     n_pubs = models.IntegerField(default=0)
     h_index = models.IntegerField(default=0)
     is_recorded = models.IntegerField(default=-1)
+
     class Meta:
         indexes = [
             models.Index(
@@ -90,7 +91,7 @@ class AuthorOrg(models.Model):
 class User(models.Model):
     uid = models.AutoField(primary_key=True)
     aid = models.IntegerField(default=-1)
-    password = models.CharField(max_length=50, null=False, )
+    password = models.CharField(max_length=50, null=False,blank=False,default="a12345678")
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=False, null=False)
     intro = models.CharField(default="", max_length=200)
@@ -115,3 +116,8 @@ class SystemMessage(models.Model):
     content = models.CharField(max_length=500)
     user = models.ForeignKey(User, on_delete=models.Model)
     type_node = models.IntegerField(default=-1)
+
+
+class UserToken(models.Model):
+    user = models.OneToOneField(to='User', on_delete=models.CASCADE)
+    token = models.CharField(max_length=64)
