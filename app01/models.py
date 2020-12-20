@@ -51,7 +51,7 @@ class Paper(models.Model):
     pdfURL = models.CharField(max_length=500, default="")
     abstract = models.TextField(max_length=5000, default="")
     keywordstr = models.TextField(max_length=20000, default="")
-    authornamestr = models.TextField(max_length=20000,default="")
+    authornamestr = models.TextField(max_length=20000, default="")
 
     class Meta:
         indexes = [
@@ -70,6 +70,18 @@ class AuthorOfPaper(models.Model):
     paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     rank = models.IntegerField(blank=False, null=False)
+
+    class Meta:
+        indexes = [
+            models.Index(
+                fields=['paper_id'],
+                name='paper_id',
+            ),
+            models.Index(
+                fields=['author_id'],
+                name='author_id',
+            ),
+        ]
 
 
 class Interests(models.Model):

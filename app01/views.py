@@ -1,5 +1,6 @@
 import json
 
+import pymysql
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
@@ -174,6 +175,7 @@ def getPaperInfoByID(request):
     try:
         pid = request.GET['pid']
         paper = Paper.objects.get(pid=pid)
+        paper.venue_name = paper.venue.normalized_name
         res = object_to_json(paper)
         authors = []
         AutherList = AuthorOfPaper.objects.filter(paper=paper)
@@ -268,7 +270,8 @@ def complexSearch(request):
             papers = papers.filter(p)
         elif method_of_author == "not":
             for key in search['author']['keys']:
-                papers = papers.exclude(authornamestr__contains=key)
+                papers = papers.exclude(
+                    authornamestr__contains=key)
     list = []
     startIndex = search["startIndex"]
     for item in papers[startIndex:startIndex + 20]:
@@ -279,7 +282,7 @@ def complexSearch(request):
             authors.append(record.author.name)
         keywords = []
         keywordList = KeyWords.objects.filter(paper=item)
-        for record in keywordList: 
+        for record in keywordList:
             keywords.append(record.keyword)
 
         paper['authors'] = authors
@@ -454,3 +457,20 @@ def cancel_collect(request):
         response = {'msg': "cancel collect failed", 'state': 0}
         print(E)
         return JsonResponse(response)
+
+
+def getAuthorInfoById(request):
+    aid = request.POST.get('aid')
+    try:
+        a = Author.objects.get(aid=aid)
+        author = object_to_json(a)
+        author.pop('is_recorded')
+        links = AuthorOfPaper.objects.filter(author=a)
+        papers = []
+        for link in links:
+            p = link.paper
+            paper = {'pid': p.pid, 'title': p.title, 'n_citation': p.n_citation}
+            papers.append(paper)
+        return JsonResponse({"authorInfo":author,"papers":papers})
+    except Exception as E:
+        return JsonResponse({"msg":"the author you are searching does not exist.","state":0})

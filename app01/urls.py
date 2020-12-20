@@ -29,7 +29,8 @@ urlpatterns = [
     path('hot_paper/', views.hot_paper),
     path('hot_field/', views.hot_field),
     path('show_collected/', views.collected),
-    path('cancel_collect/', views.cancel_collect)
+    path('cancel_collect/', views.cancel_collect),
+    path('getAuthorInfoById',views.getAuthorInfoById)
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
