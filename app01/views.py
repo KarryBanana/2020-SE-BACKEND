@@ -214,69 +214,64 @@ def getPaperListByAid(request):
 @require_http_methods(["POST"])
 def complexSearch(request):
     search = simplejson.loads(request.body)
-    method_of_title = search['title']['method']
-    method_of_keyword = search['keyword']['method']
-    method_of_abstract = search['abstract']['method']
-    method_of_author = search['author']['method']
     papers = Paper.objects.all()
-    if method_of_title == "none":
-        pass
-    elif method_of_title == "and":
-        for key in search['title']['keys']:
-            papers = papers.filter(title__contains=key)
-    elif method_of_title == "or":
-        p = Q()
-        for key in search['title']['keys']:
-            p = p | Q(title__contains=key)
-        papers = papers.filter(p)
-    elif method_of_title == "not":
-        for key in search['title']['keys']:
-            papers = papers.exclude(title__contains=key)
+    if 'title' in search:
+        method_of_title = search['title']['method']
+        if method_of_title == "and":
+            for key in search['title']['keys']:
+                papers = papers.filter(title__contains=key)
+        elif method_of_title == "or":
+            p = Q()
+            for key in search['title']['keys']:
+                p = p | Q(title__contains=key)
+            papers = papers.filter(p)
+        elif method_of_title == "not":
+            for key in search['title']['keys']:
+                papers = papers.exclude(title__contains=key)
 
-    if method_of_keyword == "none":
-        pass
-    elif method_of_keyword == "and":
-        for key in search['keyword']['keys']:
-            papers = papers.filter(keywordstr__contains=key)
-    elif method_of_keyword == "or":
-        p = Q()
-        for key in search['keyword']['keys']:
-            p = p | Q(keywordstr__contains=key)
-        papers = papers.filter(p)
-    elif method_of_keyword == "not":
-        for key in search['keyword']['keys']:
-            papers = papers.exclude(keywordstr__contains=key)
+    if 'keyword' in search:
+        method_of_keyword = search['keyword']['method']
+        if method_of_keyword == "and":
+            for key in search['keyword']['keys']:
+                papers = papers.filter(keywordstr__contains=key)
+        elif method_of_keyword == "or":
+            p = Q()
+            for key in search['keyword']['keys']:
+                p = p | Q(keywordstr__contains=key)
+            papers = papers.filter(p)
+        elif method_of_keyword == "not":
+            for key in search['keyword']['keys']:
+                papers = papers.exclude(keywordstr__contains=key)
+    if 'abstract' in search:
+        method_of_abstract = search['keyword']['method']
+        if method_of_abstract == "and":
+            for key in search['abstract']['keys']:
+                papers = papers.filter(abstract__contains=key)
+        elif method_of_abstract == "or":
+            p = Q()
+            for key in search['abstract']['keys']:
+                p = p | Q(abstract__contains=key)
+            papers = papers.filter(p)
+        elif method_of_abstract == "not":
+            for key in search['abstract']['keys']:
+                papers = papers.exclude(abstract__contains=key)
 
-    if method_of_abstract == "none":
-        pass
-    elif method_of_abstract == "and":
-        for key in search['abstract']['keys']:
-            papers = papers.filter(abstract__contains=key)
-    elif method_of_abstract == "or":
-        p = Q()
-        for key in search['abstract']['keys']:
-            p = p | Q(abstract__contains=key)
-        papers = papers.filter(p)
-    elif method_of_abstract == "not":
-        for key in search['abstract']['keys']:
-            papers = papers.exclude(abstract__contains=key)
-
-    if method_of_author == "none":
-        pass
-    elif method_of_author == "and":
-        for key in search['author']['keys']:
-            papers = papers.filter(authornamestr__contains=key)
-    elif method_of_author == "or":
-        p = Q()
-        for key in search['author']['keys']:
-            p = p | Q(authornamestr__contains=key)
-        papers = papers.filter(p)
-    elif method_of_author == "not":
-        for key in search['author']['keys']:
-            papers = papers.exclude(authornamestr__contains=key)
+    if 'author' in search:
+        method_of_author = search['author']['method']
+        if method_of_author == "and":
+            for key in search['author']['keys']:
+                papers = papers.filter(authornamestr__contains=key)
+        elif method_of_author == "or":
+            p = Q()
+            for key in search['author']['keys']:
+                p = p | Q(authornamestr__contains=key)
+            papers = papers.filter(p)
+        elif method_of_author == "not":
+            for key in search['author']['keys']:
+                papers = papers.exclude(authornamestr__contains=key)
     list = []
     startIndex = search["startIndex"]
-    for item in papers[startIndex:startIndex+50]:
+    for item in papers[startIndex:startIndex + 50]:
         paper = object_to_json(item)
         paper.pop('authornamestr')
         paper.pop('keywordstr')
