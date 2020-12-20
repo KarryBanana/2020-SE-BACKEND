@@ -271,10 +271,19 @@ def complexSearch(request):
                 papers = papers.exclude(authornamestr__contains=key)
     list = []
     startIndex = search["startIndex"]
-    for item in papers[startIndex:startIndex + 50]:
+    for item in papers[startIndex:startIndex + 20]:
         paper = object_to_json(item)
-        paper.pop('authornamestr')
-        paper.pop('keywordstr')
+        authors = []
+        AutherList = AuthorOfPaper.objects.filter(paper=item)
+        for record in AutherList:
+            authors.append(record.author.name)
+        keywords = []
+        keywordList = KeyWords.objects.filter(paper=item)
+        for record in keywordList: 
+            keywords.append(record.keyword)
+
+        paper['authors'] = authors
+        paper['keywords'] = keywords
         list.append(paper)
     return JsonResponse({"res": list})
 
