@@ -3,8 +3,8 @@ from django.db import models
 
 class Venue(models.Model):
     vid = models.CharField(max_length=50, primary_key=True)
-    display_name = models.CharField(max_length=150)
-    normalized_name = models.CharField(max_length=150)
+    display_name = models.CharField(max_length=500)
+    normalized_name = models.CharField(max_length=500)
 
 
 class Author(models.Model):
@@ -12,6 +12,7 @@ class Author(models.Model):
     name = models.CharField(max_length=50)
     normalized_name = models.CharField(max_length=50)
     org = models.CharField(max_length=50)
+    n_citation = models.IntegerField(default=0)
     position = models.CharField(max_length=50)
     n_pubs = models.IntegerField(default=0)
     h_index = models.IntegerField(default=0)
@@ -49,6 +50,8 @@ class Paper(models.Model):
     doi = models.CharField(max_length=50, default="")
     pdfURL = models.CharField(max_length=500, default="")
     abstract = models.TextField(max_length=5000, default="")
+    keywordstr = models.TextField(max_length=20000, default="")
+    authornamestr = models.TextField(max_length=20000,default="")
 
     class Meta:
         indexes = [

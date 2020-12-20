@@ -48,8 +48,6 @@ def main(path):
             continue
         if 'h_index' not in author:
             continue
-        if author['h_index'] < 6:
-            continue
         id = author['id']
         try:
             A = Author()
@@ -63,6 +61,8 @@ def main(path):
                 A.org = author['org']
             if 'position' in author and len(author['position']) <= 50:
                 A.position = author['position']
+            if 'n_citation' in author:
+                A.n_citation = author['n_citation']
             if 'n_pubs' in author:
                 A.n_pubs = author['n_pubs']
             if 'h_index' in author:
@@ -87,9 +87,21 @@ def main(path):
                     tag.field = item['t']
                     tag.weight = item['w']
                     tag.save()
+            if 'pubs' in author:
+                for item in author['pubs']:
+                    paper = Paper()
+                    paper.pid = item['i']
+                    paper.save()
+                    re = AuthorOfPaper()
+                    re.paper =paper
+                    re.author = A
+                    re.rank = item['r']
+                    re.save()
         except Exception as E:
             op = 1
         print(num)
+        if num ==1000:
+            break
 
     file.close()
     print(num)
