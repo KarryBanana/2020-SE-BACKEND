@@ -15,5 +15,13 @@ urlpatterns = [
     path('register',views.register),
     path('getPaperInfoByKeyword',views.getPaperInfoByKeyword),
     path('getPaperInfoByID',views.getPaperInfoByID),
-
+    path('follow_author/', views.followAuthor),
+    path('collect_paper/', views.collect_paper),
+    path('check_user_info/', views.check_user_info),
+    path('edit_user_info/', views.edit_user_info),
+    path('hot_author/', views.hot_author),
+    path('hot_paper/', views.hot_paper),
+    path('hot_field/', views.hot_field),
+    path('show_collected/', views.collected),
+    path('cancel_collect/', views.cancel_collect)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
