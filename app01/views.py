@@ -448,11 +448,13 @@ def collected(request):
     try:
         uid = request.POST.get('uid')
         user = User.objects.get(uid=uid)
+        print(user)
         collected = Collection.objects.filter(user=user)
         ret = []
         for col in collected:
             paper = Paper.objects.get(pid=col.paper_id)
             tmp = {}
+            tmp['pid'] = paper.pid
             tmp['title'] = paper.title
             tmp['year'] = paper.year
             authors_this_paper = AuthorOfPaper.objects.filter(paper=paper)
@@ -465,7 +467,9 @@ def collected(request):
             ret.append(tmp)
         return JsonResponse(ret, safe=False)
     except Exception as E:
-        response = {'msg': "collect papers error!", 'state': 0}
+        response = {}
+        response['msg'] = "collect papers error!"
+        response['state'] = 0
         print(E)
         return JsonResponse(response)
 
