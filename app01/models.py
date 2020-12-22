@@ -132,6 +132,7 @@ class User(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=False, null=False)
     intro = models.CharField(default="", max_length=200)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
 
 class Follow(models.Model):
