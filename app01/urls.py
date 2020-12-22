@@ -10,17 +10,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('test/',views.responseTest),
-    path('getPaperListByKey',views.getPaperListByKey),
+    path('getPaperInfoByKey',views.getPaperInfoByKey),
     path('login',views.login),
     path('register',views.register),
-    path('getPaperListByKeyword',views.getPaperListByKeyword),
+    path('getPaperInfoByKeyword',views.getPaperInfoByKeyword),
     path('getPaperInfoByID',views.getPaperInfoByID),
-    path('judgeRepetitiveUserName',views.judgeRepetitiveUserName),
-    path('judgeRepetitiveEmail',views.judgeRepetitiveEmail),
-    path('check_mail',views.check_mail),
-    path('getPaperListByAid',views.getPaperListByAid),
-    path('complexSearch',views.complexSearch),
-    path('test/', views.responseTest),
     path('follow_author/', views.followAuthor),
     path('collect_paper/', views.collect_paper),
     path('check_user_info/', views.check_user_info),
@@ -29,8 +23,5 @@ urlpatterns = [
     path('hot_paper/', views.hot_paper),
     path('hot_field/', views.hot_field),
     path('show_collected/', views.collected),
-    path('cancel_collect/', views.cancel_collect),
-    path('getAuthorInfoById',views.getAuthorInfoById)
-
-
+    path('cancel_collect/', views.cancel_collect)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

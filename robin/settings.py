@@ -78,7 +78,6 @@ DATABASES = {
         'USER': "root",
         'PASSWORD': "123456",
         'HOST': "39.97.101.50",
-      #   'HOST':"127.0.0.1",
         'PORT': 3306
     }
 }
@@ -151,9 +150,3 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'Pragma',
 )
-EMAIL_HOST = 'smtp.qq.com'  # 如果是 163 改成 smtp.163.com
-EMAIL_PORT = 465
-EMAIL_HOST_USER = '2738636498@qq.com'  # 在这里填入您的QQ邮箱账号
-EMAIL_HOST_PASSWORD = 'mfalziwgiyoodded'  # 请在这里填上您自己邮箱的授权码
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_USE_SSL = True
