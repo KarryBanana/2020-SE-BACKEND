@@ -10,7 +10,7 @@ import django
 django.setup()
 from app01.models import *
 import os
-import random
+import randooom
 
 
 def generate_random_str(randomlength=16):
@@ -21,7 +21,7 @@ def generate_random_str(randomlength=16):
     base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789'
     length = len(base_str) - 1
     for i in range(randomlength):
-        random_str += base_str[random.randint(0, length)]
+        random_str += base_str[randooom.randint(0, length)]
     return random_str
 
 

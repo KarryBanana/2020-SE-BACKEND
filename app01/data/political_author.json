@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f43d9bdabfaee2a1d1db23",
+            "name": "Esa Tuovinen",
+            "h_index": 132
+        },
+        {
+            "aid": "53f43a57dabfaee02acefcd2",
+            "name": "Artur Kalinowski",
+            "h_index": 131
+        },
+        {
+            "aid": "53f44031dabfaeb22f4ad9e2",
+            "name": "Stanley Nattel",
+            "h_index": 107
+        },
+        {
+            "aid": "53f43a6edabfaec22baa7c0e",
+            "name": "S.J. Mcmahon",
+            "h_index": 101
+        },
+        {
+            "aid": "53f43ea0dabfaee2a1d1fe54",
+            "name": "K. Arisaka",
+            "h_index": 97
+        },
+        {
+            "aid": "53f43efadabfaee02ad05450",
+            "name": "M. Ouchrif",
+            "h_index": 95
+        },
+        {
+            "aid": "53f43a96dabfaeecd6986d0f",
+            "name": "Claire M. Fraser",
+            "h_index": 92
+        },
+        {
+            "aid": "53f43a6bdabfaec22baa79cd",
+            "name": "J.D. Dowell",
+            "h_index": 89
+        },
+        {
+            "aid": "53f43ce7dabfaeecd6994917",
+            "name": "S. Ferrag",
+            "h_index": 88
+        },
+        {
+            "aid": "53f43ad3dabfaedd74dcb271",
+            "name": "M. A. L. Leite",
+            "h_index": 81
+        }
+    ],
+    "AuthorNumOfField": 21756
+}

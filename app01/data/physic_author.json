@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f43ab2dabfaee4dc7abbf7",
+            "name": "M. I. Josa",
+            "h_index": 193
+        },
+        {
+            "aid": "53f43cc8dabfaee4dc7b80ed",
+            "name": "D. Abbaneo",
+            "h_index": 171
+        },
+        {
+            "aid": "53f43f42dabfaee02ad05d25",
+            "name": "R. Tenchini",
+            "h_index": 166
+        },
+        {
+            "aid": "53f44007dabfaee43ec6c196",
+            "name": "A. Messineo",
+            "h_index": 163
+        },
+        {
+            "aid": "53f43adfdabfaee2a1d11b04",
+            "name": "B. Fabbro",
+            "h_index": 163
+        },
+        {
+            "aid": "53f43a65dabfaee43ec55c7d",
+            "name": "Q. Ingram",
+            "h_index": 159
+        },
+        {
+            "aid": "53f43bd5dabfaec09f1b04df",
+            "name": "A. Santocchia",
+            "h_index": 157
+        },
+        {
+            "aid": "53f43d91dabfaee0d9b9bfe3",
+            "name": "K. Kotov",
+            "h_index": 153
+        },
+        {
+            "aid": "53f43b21dabfaec09f1ab1db",
+            "name": "S. Argiro",
+            "h_index": 153
+        },
+        {
+            "aid": "53f440bcdabfaeee229e7ca9",
+            "name": "D. Menasce",
+            "h_index": 152
+        }
+    ],
+    "AuthorNumOfField": 17046
+}

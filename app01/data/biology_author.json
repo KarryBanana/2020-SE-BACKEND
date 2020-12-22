@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f44173dabfaedf435bd62a",
+            "name": "Tim D. Spector",
+            "h_index": 129
+        },
+        {
+            "aid": "53f440badabfaec09f1b98b5",
+            "name": "Gad Getz",
+            "h_index": 123
+        },
+        {
+            "aid": "53f43a29dabfaec22baa3f2e",
+            "name": "John J.V. Mcmurray",
+            "h_index": 123
+        },
+        {
+            "aid": "53f43ef6dabfaee02ad0540b",
+            "name": "Aviv Regev",
+            "h_index": 99
+        },
+        {
+            "aid": "53f43bf0dabfaee1c0ad1b33",
+            "name": "Richard J. Johnson",
+            "h_index": 99
+        },
+        {
+            "aid": "53f439e5dabfaee0d9b84ab2",
+            "name": "Konoplich R",
+            "h_index": 93
+        },
+        {
+            "aid": "53f43dfadabfaee2a1d1e7de",
+            "name": "Conventi F.",
+            "h_index": 92
+        },
+        {
+            "aid": "53f44046dabfaefedbb04463",
+            "name": "John Polich",
+            "h_index": 89
+        },
+        {
+            "aid": "53f43a15dabfaee4dc7a4b46",
+            "name": "T. Du Pree",
+            "h_index": 83
+        },
+        {
+            "aid": "53f43a10dabfaec22baa2f0e",
+            "name": "F. Ranjard",
+            "h_index": 83
+        }
+    ],
+    "AuthorNumOfField": 35186
+}

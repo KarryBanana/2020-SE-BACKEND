@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f43adedabfaedd74dcb8e3",
+            "name": "J.-L. Agram",
+            "h_index": 140
+        },
+        {
+            "aid": "53f43e92dabfaee2a1d1fbe4",
+            "name": "K.J. Friston",
+            "h_index": 130
+        },
+        {
+            "aid": "53f43b61dabfaeb22f4a1f47",
+            "name": "V. Oguri",
+            "h_index": 116
+        },
+        {
+            "aid": "53f43d81dabfaedce5565c83",
+            "name": "Patrik Schmuki",
+            "h_index": 104
+        },
+        {
+            "aid": "53f43a7fdabfaee2a1d0db13",
+            "name": "Niels Birbaumer",
+            "h_index": 101
+        },
+        {
+            "aid": "53f43a5fdabfaee0d9b8a029",
+            "name": "J.A. Varela",
+            "h_index": 101
+        },
+        {
+            "aid": "53f43b35dabfaedf435ae08f",
+            "name": "John D. Lambris",
+            "h_index": 95
+        },
+        {
+            "aid": "53f43fa9dabfaee02ad0670a",
+            "name": "Deborah J. Cook",
+            "h_index": 90
+        },
+        {
+            "aid": "53f43b15dabfaeb22f49e765",
+            "name": "M. N. Minard",
+            "h_index": 82
+        },
+        {
+            "aid": "53f43a43dabfaee02aceed60",
+            "name": "Jie Wu",
+            "h_index": 76
+        }
+    ],
+    "AuthorNumOfField": 20466
+}
