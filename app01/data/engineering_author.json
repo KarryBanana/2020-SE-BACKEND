@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f43a1edabfaeb22f493b8d",
+            "name": "Gregory J. Hannon",
+            "h_index": 128
+        },
+        {
+            "aid": "53f439d3dabfaeecd697e64f",
+            "name": "James J. Heckman",
+            "h_index": 119
+        },
+        {
+            "aid": "53f43b21dabfaec09f1ab1f3",
+            "name": "Lance A. Liotta",
+            "h_index": 97
+        },
+        {
+            "aid": "53f44095dabfaee0d9ba2060",
+            "name": "M. M. Aggarwal",
+            "h_index": 88
+        },
+        {
+            "aid": "53f43d06dabfaeb22f4a71c6",
+            "name": "B. K. Nandi",
+            "h_index": 84
+        },
+        {
+            "aid": "53f43ac1dabfaeee229d4b34",
+            "name": "W. Tejessy",
+            "h_index": 81
+        },
+        {
+            "aid": "53f43c65dabfaee43ec64cbc",
+            "name": "T. Alan Hatton",
+            "h_index": 74
+        },
+        {
+            "aid": "53f43bb6dabfaec22baade1e",
+            "name": "Andrey L. Rogach",
+            "h_index": 72
+        },
+        {
+            "aid": "53f43cd6dabfaedce5564843",
+            "name": "Björn Dahlöf",
+            "h_index": 71
+        },
+        {
+            "aid": "53f439a0dabfaee43ec4e0bd",
+            "name": "James W. Vaupel",
+            "h_index": 71
+        }
+    ],
+    "AuthorNumOfField": 12976
+}

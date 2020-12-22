@@ -10,7 +10,7 @@ import django
 django.setup()
 from app01.models import *
 import os
-import random
+import randooom
 
 paths = ["D:/aminerv2/aminer_papers_0/aminer_papers_0.txt"
          ]

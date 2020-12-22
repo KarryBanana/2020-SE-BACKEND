@@ -17,6 +17,7 @@ class Author(models.Model):
     n_pubs = models.IntegerField(default=0)
     h_index = models.IntegerField(default=0)
     is_recorded = models.IntegerField(default=-1)
+    field = models.CharField(default="",max_length=200)
 
     class Meta:
         indexes = [
@@ -27,6 +28,14 @@ class Author(models.Model):
             models.Index(
                 fields=['is_recorded'],
                 name='is_recorded',
+            ),
+            models.Index(
+                fields=['field'],
+                name='field',
+            ),
+            models.Index(
+                fields=['h_index'],
+                name='h_index',
             ),
         ]
 
@@ -52,6 +61,7 @@ class Paper(models.Model):
     abstract = models.TextField(max_length=5000, default="")
     keywordstr = models.TextField(max_length=20000, default="")
     authornamestr = models.TextField(max_length=20000, default="")
+    field = models.CharField(default="",max_length=200,db_index=False)
 
     class Meta:
         indexes = [

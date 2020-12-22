@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f439e4dabfaee2a1d069ba",
+            "name": "Rudolf Jaenisch",
+            "h_index": 119
+        },
+        {
+            "aid": "53f43b58dabfaedd74dd0c21",
+            "name": "Michael Arbib",
+            "h_index": 79
+        },
+        {
+            "aid": "53f43b56dabfaedce555faa3",
+            "name": "Rex Forehand",
+            "h_index": 79
+        },
+        {
+            "aid": "53f43b41dabfaee1c0acd280",
+            "name": "Sabu Thomas",
+            "h_index": 79
+        },
+        {
+            "aid": "53f44216dabfaee02ad0add2",
+            "name": "Bruce Birren",
+            "h_index": 78
+        },
+        {
+            "aid": "53f439e3dabfaee02acea8f6",
+            "name": "Jeffrey Dean",
+            "h_index": 77
+        },
+        {
+            "aid": "53f43a0edabfaefedbaea67d",
+            "name": "C. W. J. Beenakker",
+            "h_index": 76
+        },
+        {
+            "aid": "53f43ad9dabfaedce555a1d5",
+            "name": "S. Ananth Karumanchi",
+            "h_index": 75
+        },
+        {
+            "aid": "53f43b10dabfaee02acf8261",
+            "name": "Herbert Gintis",
+            "h_index": 69
+        },
+        {
+            "aid": "53f43a34dabfaee43ec537f3",
+            "name": "Michael J. Kearns",
+            "h_index": 68
+        }
+    ],
+    "AuthorNumOfField": 14621
+}

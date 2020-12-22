@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f4401cdabfaeb22f4ad7a9",
+            "name": "S. Baffioni",
+            "h_index": 159
+        },
+        {
+            "aid": "53f442a6dabfaec09f1bcbe0",
+            "name": "Pascal Vanlaer",
+            "h_index": 153
+        },
+        {
+            "aid": "53f43a0edabfaec09f19eab1",
+            "name": "Pietro Faccioli",
+            "h_index": 140
+        },
+        {
+            "aid": "53f43e3cdabfaefedbb009f1",
+            "name": "Karol Bunkowski",
+            "h_index": 139
+        },
+        {
+            "aid": "53f43af6dabfaee0d9b90d0a",
+            "name": "Elizabeth Sexton-Kennedy",
+            "h_index": 139
+        },
+        {
+            "aid": "53f43b6ddabfaedf435b0d0b",
+            "name": "R. Potenza",
+            "h_index": 123
+        },
+        {
+            "aid": "53f4404ddabfaee0d9ba17dd",
+            "name": "J. Haley",
+            "h_index": 115
+        },
+        {
+            "aid": "53f43a6edabfaedf435a5792",
+            "name": "H. B. Prosper",
+            "h_index": 111
+        },
+        {
+            "aid": "53f44263dabfaedd74de09f1",
+            "name": "R. Guida",
+            "h_index": 107
+        },
+        {
+            "aid": "53f43afcdabfaedd74dcccc4",
+            "name": "T.R. Wyatt",
+            "h_index": 99
+        }
+    ],
+    "AuthorNumOfField": 15660
+}

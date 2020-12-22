@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f43ea3dabfaeee229e450d",
+            "name": "W.C. Willett",
+            "h_index": 171
+        },
+        {
+            "aid": "53f43a2adabfaedf435a2672",
+            "name": "J. L. Rodriguez",
+            "h_index": 155
+        },
+        {
+            "aid": "53f43a05dabfaeee229cc7fd",
+            "name": "S. Semenov",
+            "h_index": 119
+        },
+        {
+            "aid": "53f439b0dabfaec09f19b99c",
+            "name": "R.S.J. Frackowiak",
+            "h_index": 116
+        },
+        {
+            "aid": "53f439c8dabfaee1c0abc854",
+            "name": "C. Ferretti",
+            "h_index": 105
+        },
+        {
+            "aid": "53f43e95dabfaee4dc7bc18f",
+            "name": "S. J. Haywood",
+            "h_index": 103
+        },
+        {
+            "aid": "53f43b3ddabfaee0d9b93bbf",
+            "name": "G. Usai",
+            "h_index": 103
+        },
+        {
+            "aid": "53f43a19dabfaec22baa34f8",
+            "name": "R. Hertenberger",
+            "h_index": 101
+        },
+        {
+            "aid": "53f44035dabfaedd74ddc850",
+            "name": "U. Parzefall",
+            "h_index": 99
+        },
+        {
+            "aid": "53f43b2edabfaedd74dcebe3",
+            "name": "M. Kado",
+            "h_index": 98
+        }
+    ],
+    "AuthorNumOfField": 17997
+}

@@ -11,6 +11,7 @@ import uuid
 from app01 import models
 from robin import settings
 import simplejson
+import random
 
 
 def object_to_json(obj):
@@ -279,7 +280,7 @@ def complexSearch(request):
         authors = []
         AutherList = AuthorOfPaper.objects.filter(paper=item)
         for record in AutherList:
-            authors.append(record.author.name)
+            authors.append({"name": record.author.name, "aid": record.author.aid})
         keywords = []
         keywordList = KeyWords.objects.filter(paper=item)
         for record in keywordList:
@@ -413,6 +414,29 @@ def hot_paper(request):
         return JsonResponse(response)
 
 
+@require_http_methods(["GET"])
+def Authentication(request):
+    response = {}
+    try:
+        name = request.GET['name']
+        token = request.GET['token']
+        u = User.objects.get(name=name)
+        if u:
+            if UserToken.objects.get(user=u, token=token):
+                response['state'] = 1
+                response['msg'] = "起飞！"
+            else:
+                response['msg'] = "cookie 过期了!"
+                response['state'] = 0
+        else:
+            response['msg'] = "不存在这样的用户名！"
+            response['state'] = 0
+    except Exception as e:
+        response['msg'] = str(e)
+        response['state'] = 0
+    return JsonResponse(response)
+
+
 def hot_field(request):
     ret = ["Material science", "Medicine", "Computer science", "Engineering",
            "Chemistry", "Mathematics", "Biology", "Physics", "Political science"]
@@ -468,9 +492,95 @@ def getAuthorInfoById(request):
         links = AuthorOfPaper.objects.filter(author=a)
         papers = []
         for link in links:
-            p = link.paper
-            paper = {'pid': p.pid, 'title': p.title, 'n_citation': p.n_citation}
+            paper = {'pid': link.paper.pid, 'title': link.paper.title, 'n_citation': link.paper.n_citation,
+                     'year': link.paper.year}
             papers.append(paper)
-        return JsonResponse({"authorInfo":author,"papers":papers})
+        return JsonResponse({"authorInfo": author, "papers": papers})
     except Exception as E:
-        return JsonResponse({"msg":"the author you are searching does not exist.","state":0})
+        return JsonResponse({"msg": str(E), "state": 0})
+
+
+def get():
+    return seed_of_computer
+
+
+@require_http_methods(["GET"])
+def getPaperOfField(request):
+    field = request.GET['field']
+    print(field)
+    paperList = Paper.objects.filter(field=field).order_by("-n_citation")[0:10]
+    papers = []
+    for item in paperList:
+        paper = {'pid': item.pid, 'title': item.title, 'n_citation': item.n_citation}
+        papers.append(paper)
+    publish_num_of_recent_year = []
+    start_year = 2014
+    while start_year <= 2018:
+        publish_num_of_recent_year.append({str(start_year):
+                                               getseed(field)[start_year - 2014]})
+        start_year += 1
+    return JsonResponse({"TopPapers": papers, "n_pubs_each_year": publish_num_of_recent_year})
+
+
+def getAuthorOfField(request):
+    str = request.GET['field']
+    if str == "Computer Science":
+        file = open("app01/data/computer_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Biology":
+        file = open("app01/data/biology_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Chemistry":
+        file = open("app01/data/chemistry_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Medicine":
+        file = open("app01/data/medicine_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Physics":
+        file = open("app01/data/physic_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Political science":
+        file = open("app01/data/political_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Mathematics":
+        file = open("app01/data/mathematics_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Material Science":
+        file = open("app01/data/material_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+    if str == "Engineering":
+        file = open("app01/data/engineering_author.json")
+        data = json.load(file)
+        return JsonResponse(data)
+
+
+from app01.seed import *
+
+
+def getseed(str):
+    if str == "Computer Science":
+        return seed_of_computer
+    if str == "Biology":
+        return seed_of_biology
+    if str == "Chemistry":
+        return seed_of_chemistry
+    if str == "Medicine":
+        return seed_of_medicine
+    if str == "Physics":
+        return seed_of_physic
+    if str == "Political science":
+        return seed_of_Political
+    if str == "Mathematics":
+        return seed_of_Mathematics
+    if str == "Material Science":
+        return seed_of_material
+    if str == "Engineering":
+        return seed_of_engieering

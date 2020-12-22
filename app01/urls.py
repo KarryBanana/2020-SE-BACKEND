@@ -30,7 +30,10 @@ urlpatterns = [
     path('hot_field/', views.hot_field),
     path('show_collected/', views.collected),
     path('cancel_collect/', views.cancel_collect),
-    path('getAuthorInfoById',views.getAuthorInfoById)
+    path('getAuthorInfoById',views.getAuthorInfoById),
+    path('getPaperOfField',views.getPaperOfField),
+    path('getAuthorOfField', views.getAuthorOfField),
+    path('Authentication',views.Authentication)
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

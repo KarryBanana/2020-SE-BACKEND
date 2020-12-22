@@ -1,0 +1,55 @@
+{
+    "TopAuthors": [
+        {
+            "aid": "53f43ab1dabfaeb22f49a547",
+            "name": "Joanne Chory",
+            "h_index": 102
+        },
+        {
+            "aid": "53f43ab0dabfaeee229d417a",
+            "name": "J. F. Ormes",
+            "h_index": 88
+        },
+        {
+            "aid": "53f43b6ddabfaee02acfc640",
+            "name": "Harry V. Vinters",
+            "h_index": 87
+        },
+        {
+            "aid": "53f43b45dabfaee43ec5f984",
+            "name": "E. L. Wright",
+            "h_index": 82
+        },
+        {
+            "aid": "53f43ca3dabfaeb1a7c13aa3",
+            "name": "Vincent Mor",
+            "h_index": 78
+        },
+        {
+            "aid": "53f43a55dabfaee4dc7a7788",
+            "name": "T.R. Edgecock",
+            "h_index": 76
+        },
+        {
+            "aid": "53f43b4cdabfaec09f1ad07a",
+            "name": "J. E. Grove",
+            "h_index": 72
+        },
+        {
+            "aid": "53f44146dabfaeb1a7c1ce21",
+            "name": "D. J. Suson",
+            "h_index": 71
+        },
+        {
+            "aid": "53f43a68dabfaedce55551b0",
+            "name": "John P. Perdew",
+            "h_index": 71
+        },
+        {
+            "aid": "53f43abedabfaeecd6988b95",
+            "name": "A. Putzer",
+            "h_index": 70
+        }
+    ],
+    "AuthorNumOfField": 16208
+}
