@@ -447,23 +447,30 @@ def hot_field(request):
 def collected(request):
     try:
         uid = request.POST.get('uid')
+        print(uid)
         user = User.objects.get(uid=uid)
         print(user)
         collected = Collection.objects.filter(user=user)
         ret = []
         for col in collected:
             paper = Paper.objects.get(pid=col.paper_id)
+            print(paper)
             tmp = {}
             tmp['pid'] = paper.pid
             tmp['title'] = paper.title
             tmp['year'] = paper.year
+            tmp['citation'] = paper.n_citation
             authors_this_paper = AuthorOfPaper.objects.filter(paper=paper)
             authors = []
             for a in authors_this_paper:
                 authors.append(a.author.name)
             tmp['authors'] = authors
-            venue = Venue.objects.get(vid=paper.venue_id)
-            tmp['venue'] = venue.display_name
+            if paper.venue:
+                if Venue.objects.filter(vid=paper.venue_id) :
+                    venue = Venue.objects.get(vid=paper.venue_id)
+                    tmp['venue'] = venue.display_name
+            else:
+                tmp['venue'] = ""
             ret.append(tmp)
         return JsonResponse(ret, safe=False)
     except Exception as E:
