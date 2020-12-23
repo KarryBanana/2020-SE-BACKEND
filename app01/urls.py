@@ -38,5 +38,6 @@ urlpatterns = [
     path('hot_studyz/',views.hot_studyz),
     path('hot_authorz/',views.hot_authorz),
     path('hot_paperz/',views.hot_paperz),
-    path('paper_recommend',views.paper_recommend)
+    path('paper_recommend',views.paper_recommend),
+    path('deleteAllBrowerHistory',views.deleteAllBrowerHistory),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -323,7 +323,6 @@ def followAuthor(request):
     except Exception as E:
         return HttpResponse("Error occurs!")
 
- 
 def cancel_follow(request):
     uid = request.POST.get('uid')
     aid = request.POST.get('aid')
@@ -339,7 +338,7 @@ def cancel_follow(request):
         return JsonResponse(response)
 
 
- def followed(request):
+def followed(request):
     try:
         uid = request.POST.get('uid')
         user = User.objects.get(uid=uid)
@@ -443,14 +442,6 @@ def hot_paper(request):
         # 可能耗时
         hot_paper_list = Paper.objects.all().order_by("-n_citation")[0:1000]
         ret = []
-        # year_first = hot_paper_list[0].year
-        # ret.append(hot_paper_list[0].title)
-        # for paper in hot_paper_list:
-        #     if paper.year == year_first:
-        #         continue
-        #     else:
-        #         ret.append(paper.title)
-        #         year_first = paper.year
         for paper in hot_paper_list:
             if 2014 < paper.year < 2018:
                 ret.append(paper.title)
@@ -791,3 +782,19 @@ def paper_recommend(request):
         paper = {"pid":item.pid,"title":item.title,"n_citation":item.n_citation}
         recommend.append(paper)
     return JsonResponse(recommend,safe=False)
+
+def deleteAllBrowerHistory(request):
+    uid = request.POST.get('uid')
+    token = request.POST.get('token')
+    try:
+        user = User.objects.get(uid=uid)
+        if UserToken.objects.get(user=user,token=token):
+            pass
+        else:
+            return JsonResponse({"state": 0, "msg": "wrong token,please login again."})
+        BHList = BrowerHistory.objects.filter(user=user)
+        for item in BHList:
+            item.delete()
+        return JsonResponse({"state":1,"message":"delete all success."})
+    except Exception as E:
+        return JsonResponse({"state":0,"msg":str(E)})
