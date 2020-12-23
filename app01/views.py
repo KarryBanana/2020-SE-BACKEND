@@ -27,6 +27,9 @@ def check_mail(request):
     try:
         email = request.GET['email']
         str = request.GET['str']
+        if User.objects.filter(email=email):
+            return JsonResponse({"state":0})
+        print(str)
         send_mail(
             subject='Robin',
             message=str,
@@ -110,26 +113,15 @@ def register(request):  # 注册
     response = {}
     try:
         name = request.POST.get('name')
-        print("name", name)
         password = request.POST.get('password')
-        print(password)
         email = request.POST.get('email')
-        if User.objects.filter(name=name):
-            response['msg'] = "repetitive username"
-            response['error_num'] = 1
-            response['state'] = 0
-        elif User.objects.filter(email=email):
-            response['msg'] = "repetitive email"
-            response['error_num'] = 2
-            response['state'] = 0
-        else:
-            p = User()
-            p.name = name
-            p.password = password
-            p.email = email
-            p.save()
-            response['msg'] = "success"
-            response['state'] = 1
+        p = User()
+        p.name = name
+        p.password = password
+        p.email = email
+        p.save()
+        response['msg'] = "success"
+        response['state'] = 1
     except Exception as e:
         response['msg'] = str(e)
         response['error_num'] = -1
