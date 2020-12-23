@@ -23,6 +23,8 @@ urlpatterns = [
     path('show_followed/', views.followed),
     path('cancel_follow/', views.cancel_follow),
     path('collect_paper/', views.collect_paper),
+    path('verify_author/', views.veri_author),
+    path('verify_success/', views.verify_success),
     path('check_user_info/', views.check_user_info),
     path('edit_user_info/', views.edit_user_info),
     path('hot_author/', views.hot_author),
