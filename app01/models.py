@@ -81,17 +81,6 @@ class AuthorOfPaper(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     rank = models.IntegerField(blank=False, null=False)
 
-    class Meta:
-        indexes = [
-            models.Index(
-                fields=['paper_id'],
-                name='paper_id',
-            ),
-            models.Index(
-                fields=['author_id'],
-                name='author_id',
-            ),
-        ]
 
 
 class Interests(models.Model):
