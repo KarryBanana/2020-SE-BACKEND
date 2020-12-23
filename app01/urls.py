@@ -33,7 +33,11 @@ urlpatterns = [
     path('getAuthorInfoById',views.getAuthorInfoById),
     path('getPaperOfField',views.getPaperOfField),
     path('getAuthorOfField', views.getAuthorOfField),
-    path('Authentication',views.Authentication)
+    path('Authentication',views.Authentication),
+    path('hot_orgz/',views.hot_orgz),
+    path('hot_studyz/',views.hot_studyz),
+    path('hot_authorz/',views.hot_authorz),
+    path('hot_paperz/',views.hot_paperz)
 
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
