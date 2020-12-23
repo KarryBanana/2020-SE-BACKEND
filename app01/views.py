@@ -535,8 +535,11 @@ def cancel_collect(request):
         print(E)
         return JsonResponse(response)
 
+
 def func(item):
     return item['time']
+
+
 @require_http_methods(["POST"])
 def getAuthorInfoById(request):
     aid = request.POST.get('aid')
@@ -806,3 +809,16 @@ def deleteAllBrowerHistory(request):
         return JsonResponse({"state": 1, "message": "delete all success."})
     except Exception as E:
         return JsonResponse({"state": 0, "msg": str(E)})
+
+
+def related_paper(request):
+    pid = request.GET['pid']
+    paper = Paper.objects.get(pid=pid)
+    key = random.randint(0,100)
+    plist = Paper.objects.filter(field=paper.field)[key:key+3]
+    related = []
+    for p in plist:
+        author = AuthorOfPaper.objects.filter(paper=paper)[0].author
+        related.append({"pid":p.pid,"title":p.title,"year":p.year,"abstract":p.abstract[:50],"author":{"name":author.name,"aid":author.aid}})
+    return JsonResponse(related,safe=False)
+

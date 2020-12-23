@@ -42,5 +42,6 @@ urlpatterns = [
     path('hot_paperz/',views.hot_paperz),
     path('paper_recommend',views.paper_recommend),
     path('deleteAllBrowerHistory',views.deleteAllBrowerHistory),
+    path('related_paper',views.related_paper)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
