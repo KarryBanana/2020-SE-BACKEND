@@ -12,9 +12,7 @@ from app01.models import *
 import os
 import randooom
 
-num = 0
-
-
+num=0
 def generate_random_str(randomlength=16):
     """
     生成一个指定长度的随机字符串
@@ -29,25 +27,25 @@ def generate_random_str(randomlength=16):
 
 paths = [
     "D:/aminerv2/aminer_papers_0/aminer_papers_0.txt",
-    # "D:/aminerv2/aminer_papers_0/aminer_papers_1.txt",
-    # "D:/aminerv2/aminer_papers_0/aminer_papers_2.txt",
-    # "D:/aminerv2/aminer_papers_0/aminer_papers_3.txt",
-    # "D:/aminerv2/aminer_papers_1/aminer_papers_4.txt",
-    # "D:/aminerv2/aminer_papers_1/aminer_papers_5.txt",
-    # "D:/aminerv2/aminer_papers_1/aminer_papers_6.txt",
-    # "D:/aminerv2/aminer_papers_1/aminer_papers_7.txt",
-    # "D:/aminerv2/aminer_papers_2/aminer_papers_8.txt",
-    # "D:/aminerv2/aminer_papers_2/aminer_papers_9.txt",
-    # "D:/aminerv2/aminer_papers_2/aminer_papers_10.txt",
-    # "D:/aminerv2/aminer_papers_2/aminer_papers_11.txt",
-    # "D:/aminerv2/aminer_papers_3/aminer_papers_12.txt",
-    # "D:/aminerv2/aminer_papers_3/aminer_papers_13.txt",
-    # "D:/aminerv2/aminer_papers_3/aminer_papers_14.txt",
+    "D:/aminerv2/aminer_papers_0/aminer_papers_1.txt",
+    "D:/aminerv2/aminer_papers_0/aminer_papers_2.txt",
+    "D:/aminerv2/aminer_papers_0/aminer_papers_3.txt",
+    "D:/aminerv2/aminer_papers_1/aminer_papers_4.txt",
+    "D:/aminerv2/aminer_papers_1/aminer_papers_5.txt",
+    "D:/aminerv2/aminer_papers_1/aminer_papers_6.txt",
+    "D:/aminerv2/aminer_papers_1/aminer_papers_7.txt",
+    "D:/aminerv2/aminer_papers_2/aminer_papers_8.txt",
+    "D:/aminerv2/aminer_papers_2/aminer_papers_9.txt",
+    "D:/aminerv2/aminer_papers_2/aminer_papers_10.txt",
+    "D:/aminerv2/aminer_papers_2/aminer_papers_11.txt",
+    "D:/aminerv2/aminer_papers_3/aminer_papers_12.txt",
+    "D:/aminerv2/aminer_papers_3/aminer_papers_13.txt",
+    "D:/aminerv2/aminer_papers_3/aminer_papers_14.txt",
 ]
-
-
+@transaction.atomic
 def main(path, num=num):
     file = open(path)
+
     while True:
         text = file.readline()  # 只读取一行内容
         if not text:
@@ -55,9 +53,13 @@ def main(path, num=num):
         paper = json.loads(text)
         if 'n_citation' not in paper:
             continue
+        if paper['n_citation'] < 1200:
+            continue
         p = Paper()
         if 'id' in paper:
             p.pid = paper['id']
+        else:
+            continue
         if 'title' in paper and len(paper['title']) <= 200:
             p.title = paper['title']
         else:
@@ -93,6 +95,7 @@ def main(path, num=num):
         if 'abstract' in paper:
             p.abstract = paper['abstract']
         p.save()
+        # authors,venue,url,keywords,Referenced,fos
         if 'authors' in paper:
             rank = 0
             for author in paper['authors']:
@@ -102,8 +105,6 @@ def main(path, num=num):
                 if 'id' in author:
                     a.aid = author['id']
                 else:
-                    continue
-                if Author.objects.filter(aid=author['id']) is not None:
                     continue
                 a.save()
                 ap = AuthorOfPaper()
@@ -145,17 +146,14 @@ def main(path, num=num):
                 try:
                     v = Venue.objects.get(vid=paper['venue']['id'])
                     p.venue = v
-                    p.venue_name = v.display_name
                     p.save()
                 except Exception as E:
                     op = 1
         num += 1
         print(num)
-        if num == 1000:
-            break
     file.close()
     print(num)
 
 
 for path in paths:
-    main(path, num)
+    main(path,num)

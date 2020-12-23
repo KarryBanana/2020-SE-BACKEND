@@ -29,6 +29,7 @@ def generate_random_str(randomlength=16):
 def main():
     file = open("D:/aminerv2/aminer_venues/aminer_venues.txt")
     num = 0
+
     while True:
         text = file.readline()  # 只读取一行内容
         if not text:
@@ -41,7 +42,7 @@ def main():
             V.display_name = venue['DisplayName']
         if 'NormalizedName' in venue:
             V.normalized_name = venue['NormalizedName']
-        if len(V.normalized_name) > 500 or len(V.display_name) > 500:
+        if len(V.normalized_name) > 150 or len(V.display_name) > 150:
             continue
         V.save()
         num += 1

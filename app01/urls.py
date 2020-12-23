@@ -3,8 +3,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.template.context_processors import static
 from django.urls import path, include, re_path
-
-from . import views
+from app01 import views
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -35,4 +34,9 @@ urlpatterns = [
     path('Authentication',views.Authentication),
     path('getBrowerHistory',views.getBrowerHistory),
     path('check_user', views.check_user),
+    path('hot_orgz/',views.hot_orgz),
+    path('hot_studyz/',views.hot_studyz),
+    path('hot_authorz/',views.hot_authorz),
+    path('hot_paperz/',views.hot_paperz)
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

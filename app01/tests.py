@@ -8,7 +8,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "robin.settings")
 import django
 
 django.setup()
-from app01.models import Paper, Author, KeyWords, Venue, PaperURL, FieldOfStudy
+from app01.models import *
 import os
 import randooom
 
@@ -25,28 +25,13 @@ def generate_random_str(randomlength=16):
     return random_str
 
 
+# 不加这一句写入太慢了 venue 没写
 @transaction.atomic
 def main():
-    file = open("D:/aminerv2/aminer_venues/aminer_venues.txt")
-    num = 0
-    max = int(0)
-    while True:
-        text = file.readline()  # 只读取一行内容
-        if not text:
-            break
-        venue = json.loads(text)
-        V = Venue()
-        if 'id' in venue:
-            V.vid = venue['id']
-        if 'DisplayName' in venue:
-            V.display_name = venue['DisplayName']
-        if 'NormalizedName' in venue:
-            V.normalized_name = venue['NormalizedName']
-        if len(V.normalized_name) > max:
-            max = len(V.normalized_name)
-        print(max)
-
-    file.close()
-
+    p = Paper.objects.get(pid="53e9978db7602d9701f51a56")
+    al = AuthorOfPaper.objects.filter(paper=p)
+    print(p.venue)
+    for item in al:
+        print(item.author.name)
 
 main()
