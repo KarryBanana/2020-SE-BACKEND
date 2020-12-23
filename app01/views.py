@@ -528,7 +528,6 @@ def hot_field(request):
     print(ret)
     return JsonResponse({"hot_field": ret, "state": 1})
 
-
 def collected(request):
     try:
         uid = request.POST.get('uid')
@@ -548,7 +547,7 @@ def collected(request):
             authors_this_paper = AuthorOfPaper.objects.filter(paper=paper)
             authors = []
             for a in authors_this_paper:
-                authors.append(a.author.name)
+                authors.append({"name": a.author.name, "aid": a.author.aid})
             tmp['authors'] = authors
             if paper.venue:
                 if Venue.objects.filter(vid=paper.venue_id):
