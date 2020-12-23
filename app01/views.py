@@ -815,7 +815,7 @@ def related_paper(request):
     pid = request.GET['pid']
     paper = Paper.objects.get(pid=pid)
     key = random.randint(0,100)
-    plist = Paper.objects.filter(field=paper.field)[key:key+3]
+    plist = Paper.objects.filter(field=paper.field).exclude(abstract="")[key:key+3]
     related = []
     for p in plist:
         author = AuthorOfPaper.objects.filter(paper=paper)[0].author
