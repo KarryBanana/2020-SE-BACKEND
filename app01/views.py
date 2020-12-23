@@ -484,7 +484,7 @@ def collected(request):
                 authors.append(a.author.name)
             tmp['authors'] = authors
             if paper.venue:
-                if Venue.objects.filter(vid=paper.venue_id) :
+                if Venue.objects.filter(vid=paper.venue_id):
                     venue = Venue.objects.get(vid=paper.venue_id)
                     tmp['venue'] = venue.display_name
             else:
@@ -511,7 +511,7 @@ def cancel_collect(request):
         print(E)
         return JsonResponse(response)
 
-
+@require_http_methods(["POST"])
 def getAuthorInfoById(request):
     aid = request.POST.get('aid')
     print(aid)
@@ -633,6 +633,7 @@ def getseed(str):
     if str == "Engineering":
         return seed_of_engieering
 
+
 def getBrowerHistory(request):
     uid = request.GET['uid']
     token = request.GET['token']
@@ -669,73 +670,92 @@ def check_user(request):  # 注册
         response['state'] = 0
     return JsonResponse(response)
 
+
 def hot_orgz(request):
-    fields=["Biology","Chemistry","Computer Science","Engineering","Material Science","Mathematics","Medicine","Physics","Political Science"]
-    con=pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin", charset="utf8")
-    cur=con.cursor()
-    ln=request.POST["topnum"]
-    field=fields[random.randint(0,8)]
-    field=request.POST['field']
-    result=[]
-    op=random.randint(0,1)
-    if op==0:
-        sql='select app01_authororg.org,app01_authororg.id,app01_author.field from (app01_author JOIN app01_authororg ON (aid=author_id and app01_author.field="'+field+'" and app01_authororg.org!="")) group by app01_authororg.org order by count(*) desc limit '+ln
+    fields = ["Biology", "Chemistry", "Computer Science", "Engineering", "Material Science", "Mathematics", "Medicine",
+              "Physics", "Political Science"]
+    con = pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin",
+                          charset="utf8")
+    cur = con.cursor()
+    ln = request.POST["topnum"]
+    field = fields[random.randint(0, 8)]
+    field = request.POST['field']
+    result = []
+    op = random.randint(0, 1)
+    if op == 0:
+        sql = 'select app01_authororg.org,app01_authororg.id,app01_author.field from (app01_author JOIN app01_authororg ON (aid=author_id and app01_author.field="' + field + '" and app01_authororg.org!="")) group by app01_authororg.org order by count(*) desc limit ' + ln
         cur.execute(sql)
         for row in cur:
-            tmp={"OrgName":row[0],"OrgId":row[1]}
+            tmp = {"OrgName": row[0], "OrgId": row[1]}
             result.append(tmp)
     else:
-        sql='select app01_authororg.org,app01_authororg.id,app01_author.field from  app01_authororg JOIN (app01_author JOIN (app01_authorofpaper JOIN app01_paper ON app01_authorofpaper.paper_id=app01_paper.pid) ON app01_author.aid=app01_authorofpaper.author_id) ON app01_authororg.author_id = app01_author.aid and app01_author.field="'+field+'" and app01_authororg.org!="" group by app01_authororg.org order by count(*) desc limit '+ln
+        sql = 'select app01_authororg.org,app01_authororg.id,app01_author.field from  app01_authororg JOIN (app01_author JOIN (app01_authorofpaper JOIN app01_paper ON app01_authorofpaper.paper_id=app01_paper.pid) ON app01_author.aid=app01_authorofpaper.author_id) ON app01_authororg.author_id = app01_author.aid and app01_author.field="' + field + '" and app01_authororg.org!="" group by app01_authororg.org order by count(*) desc limit ' + ln
         cur.execute(sql)
         for row in cur:
-            tmp={"OrgName":row[0],"OrgId":row[1]}
+            tmp = {"OrgName": row[0], "OrgId": row[1]}
             result.append(tmp)
     con.close()
     return HttpResponse(json.dumps(result), content_type="application/json")
+
 
 def hot_studyz(request):
     result = ["Material science", "Medicine", "Computer science", "Engineering",
-           "Chemistry", "Mathematics", "Biology", "Physics", "Political science"]
-    ln=request.POST["topnum"]
+              "Chemistry", "Mathematics", "Biology", "Physics", "Political science"]
+    ln = request.POST["topnum"]
     return HttpResponse(json.dumps(result), content_type="application/json")
 
+
 def hot_authorz(request):
-    fields=["Biology","Chemistry","Computer Science","Engineering","Material Science","Mathematics","Medicine","Physics","Political Science"]
-    con=pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin", charset="utf8")
-    cur=con.cursor()
-    ln=request.POST["topnum"]
-    field=fields[random.randint(0,8)]
-    field=request.POST['field']
-    result=[]
-    op=random.randint(0,1)
-    op=0
-    if op==0:
-        sql='select name,aid from app01_author where field="'+field+'" order by n_citation desc limit '+ln
+    fields = ["Biology", "Chemistry", "Computer Science", "Engineering", "Material Science", "Mathematics", "Medicine",
+              "Physics", "Political Science"]
+    con = pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin",
+                          charset="utf8")
+    cur = con.cursor()
+    ln = request.POST["topnum"]
+    field = fields[random.randint(0, 8)]
+    field = request.POST['field']
+    result = []
+    op = random.randint(0, 1)
+    op = 0
+    if op == 0:
+        sql = 'select name,aid from app01_author where field="' + field + '" order by n_citation desc limit ' + ln
         cur.execute(sql)
         for row in cur:
-            tmp={"AuthorName":row[0],"AuthorId":row[1]}
+            tmp = {"AuthorName": row[0], "AuthorId": row[1]}
             result.append(tmp)
     else:
-        sql='select app01_author.name,app01_author.aid from app01_author JOIN (app01_authorofpaper JOIN app01_paper ON (app01_authorofpaper.paper_id=app01_paper.pid)) ON app01_author.aid=app01_authorofpaper.author_id and app01_author.field="'+field+'" group by app01_author.aid order by count(*) desc limit '+ln
+        sql = 'select app01_author.name,app01_author.aid from app01_author JOIN (app01_authorofpaper JOIN app01_paper ON (app01_authorofpaper.paper_id=app01_paper.pid)) ON app01_author.aid=app01_authorofpaper.author_id and app01_author.field="' + field + '" group by app01_author.aid order by count(*) desc limit ' + ln
         cur.execute(sql)
         for row in cur:
-            tmp={"AuthorName":row[0],"AuthorId":row[1]}
+            tmp = {"AuthorName": row[0], "AuthorId": row[1]}
             result.append(tmp)
     con.close()
     return HttpResponse(json.dumps(result), content_type="application/json")
 
+
 def hot_paperz(request):
-    fields=["Biology","Chemistry","Computer Science","Engineering","Material Science","Mathematics","Medicine","Physics","Political Science"]
-    con=pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin", charset="utf8")
-    cur=con.cursor()
-    ln=request.POST["topnum"]
-    field=request.POST['field']
-    result=[]
-    sql='select title,pid from app01_paper where year>=2014 and year<=2018 and field="'+field+'"order by n_citation desc limit '+ln
+    fields = ["Biology", "Chemistry", "Computer Science", "Engineering", "Material Science", "Mathematics", "Medicine",
+              "Physics", "Political Science"]
+    con = pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin",
+                          charset="utf8")
+    cur = con.cursor()
+    ln = request.POST["topnum"]
+    field = request.POST['field']
+    result = []
+    sql = 'select title,pid from app01_paper where year>=2014 and year<=2018 and field="' + field + '"order by n_citation desc limit ' + ln
     cur.execute(sql)
     for row in cur:
-        tmp={"Title":row[0],"PaperId":row[1]}
+        tmp = {"Title": row[0], "PaperId": row[1]}
         result.append(tmp)
     con.close()
     return HttpResponse(json.dumps(result), content_type="application/json")
 
+
+def paper_recommend(request):
+    key = random.randint(0,2000)
+    plist = Paper.objects.filter(n_citation__gt=3000)[key:key+6]
+    recommend = []
+    for item in plist:
+        paper = {"pid":item.pid,"title":item.title,"n_citation":item.n_citation}
+        recommend.append(paper)
+    return JsonResponse(recommend,safe=False)

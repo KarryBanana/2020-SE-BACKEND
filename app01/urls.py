@@ -37,6 +37,6 @@ urlpatterns = [
     path('hot_orgz/',views.hot_orgz),
     path('hot_studyz/',views.hot_studyz),
     path('hot_authorz/',views.hot_authorz),
-    path('hot_paperz/',views.hot_paperz)
-
+    path('hot_paperz/',views.hot_paperz),
+    path('paper_recommend',views.paper_recommend)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
