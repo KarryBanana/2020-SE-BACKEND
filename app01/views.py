@@ -28,7 +28,7 @@ def check_mail(request):
         email = request.GET['email']
         str = request.GET['str']
         if User.objects.filter(email=email):
-            return JsonResponse({"state":0})
+            return JsonResponse({"state": 0})
         print(str)
         send_mail(
             subject='Robin',
@@ -232,57 +232,57 @@ def complexSearch(request):
         method_of_title = search['title']['method']
         if method_of_title == "and":
             for key in search['title']['keys']:
-                papers = papers.filter(title__contains=key)
+                papers = papers.filter(title__icontains=key)
         elif method_of_title == "or":
             p = Q()
             for key in search['title']['keys']:
-                p = p | Q(title__contains=key)
+                p = p | Q(title__icontains=key)
             papers = papers.filter(p)
         elif method_of_title == "not":
             for key in search['title']['keys']:
-                papers = papers.exclude(title__contains=key)
+                papers = papers.exclude(title__icontains=key)
 
     if 'keyword' in search:
         method_of_keyword = search['keyword']['method']
         if method_of_keyword == "and":
             for key in search['keyword']['keys']:
-                papers = papers.filter(keywordstr__contains=key)
+                papers = papers.filter(keywordstr__icontains=key)
         elif method_of_keyword == "or":
             p = Q()
             for key in search['keyword']['keys']:
-                p = p | Q(keywordstr__contains=key)
+                p = p | Q(keywordstr__icontains=key)
             papers = papers.filter(p)
         elif method_of_keyword == "not":
             for key in search['keyword']['keys']:
-                papers = papers.exclude(keywordstr__contains=key)
+                papers = papers.exclude(keywordstr__icontains=key)
     if 'abstract' in search:
         method_of_abstract = search['keyword']['method']
         if method_of_abstract == "and":
             for key in search['abstract']['keys']:
-                papers = papers.filter(abstract__contains=key)
+                papers = papers.filter(abstract__icontains=key)
         elif method_of_abstract == "or":
             p = Q()
             for key in search['abstract']['keys']:
-                p = p | Q(abstract__contains=key)
+                p = p | Q(abstract__icontains=key)
             papers = papers.filter(p)
         elif method_of_abstract == "not":
             for key in search['abstract']['keys']:
-                papers = papers.exclude(abstract__contains=key)
+                papers = papers.exclude(abstract__icontains=key)
 
     if 'author' in search:
         method_of_author = search['author']['method']
         if method_of_author == "and":
             for key in search['author']['keys']:
-                papers = papers.filter(authornamestr__contains=key)
+                papers = papers.filter(authornamestr__icontains=key)
         elif method_of_author == "or":
             p = Q()
             for key in search['author']['keys']:
-                p = p | Q(authornamestr__contains=key)
+                p = p | Q(authornamestr__icontains=key)
             papers = papers.filter(p)
         elif method_of_author == "not":
             for key in search['author']['keys']:
                 papers = papers.exclude(
-                    authornamestr__contains=key)
+                    authornamestr__icontains=key)
     list = []
     startIndex = search["startIndex"]
     for item in papers[startIndex:startIndex + 20]:
@@ -323,6 +323,7 @@ def followAuthor(request):
     except Exception as E:
         return HttpResponse("Error occurs!")
 
+
 def cancel_follow(request):
     uid = request.POST.get('uid')
     aid = request.POST.get('aid')
@@ -352,7 +353,7 @@ def followed(request):
             tmp['field'] = author.field
             tmp['h_index'] = author.h_index
             if author.org:
-                    tmp['org'] = author.org
+                tmp['org'] = author.org
             else:
                 tmp['org'] = ""
             ret.append(tmp)
@@ -361,8 +362,8 @@ def followed(request):
         response = {'msg': "show followed error!", 'state': 0}
         print(E)
         return JsonResponse(response)
-    
-    
+
+
 def collect_paper(request):
     try:
         uid = request.POST.get('uid')
@@ -534,6 +535,8 @@ def cancel_collect(request):
         print(E)
         return JsonResponse(response)
 
+def func(item):
+    return item['time']
 @require_http_methods(["POST"])
 def getAuthorInfoById(request):
     aid = request.POST.get('aid')
@@ -541,9 +544,6 @@ def getAuthorInfoById(request):
     try:
         a = Author.objects.get(aid=aid)
         author = object_to_json(a)
-        author.pop('is_recorded')
-        author.pop('normalized_name')
-        author.pop('org')
         links = AuthorOfPaper.objects.filter(author=a)
         papers = []
         organization = ""
@@ -556,7 +556,14 @@ def getAuthorInfoById(request):
                      'year': link.paper.year}
             authors_of_the_paper = AuthorOfPaper.objects.filter(paper=link.paper)
             for co_au in authors_of_the_paper:
-                co_authors.append(co_au.id)
+                In = False
+                for co in co_authors:
+                    if co_au.author.aid == co['aid']:
+                        In = True
+                        co['time'] += 1
+                if not In:
+                    co_authors.append({"aid": co_au.author.aid, "time": 1, "name": co_au.author.name})
+            co_authors.sort(key=func, reverse=True)
             if 2011 <= link.paper.year <= 2018:
                 year[link.paper.year - 2011] += 1
             papers.append(paper)
@@ -775,26 +782,27 @@ def hot_paperz(request):
 
 
 def paper_recommend(request):
-    key = random.randint(0,2000)
-    plist = Paper.objects.filter(n_citation__gt=3000)[key:key+6]
+    key = random.randint(0, 2000)
+    plist = Paper.objects.filter(n_citation__gt=3000)[key:key + 6]
     recommend = []
     for item in plist:
-        paper = {"pid":item.pid,"title":item.title,"n_citation":item.n_citation}
+        paper = {"pid": item.pid, "title": item.title, "n_citation": item.n_citation}
         recommend.append(paper)
-    return JsonResponse(recommend,safe=False)
+    return JsonResponse(recommend, safe=False)
+
 
 def deleteAllBrowerHistory(request):
     uid = request.POST.get('uid')
     token = request.POST.get('token')
     try:
         user = User.objects.get(uid=uid)
-        if UserToken.objects.get(user=user,token=token):
+        if UserToken.objects.get(user=user, token=token):
             pass
         else:
             return JsonResponse({"state": 0, "msg": "wrong token,please login again."})
         BHList = BrowerHistory.objects.filter(user=user)
         for item in BHList:
             item.delete()
-        return JsonResponse({"state":1,"message":"delete all success."})
+        return JsonResponse({"state": 1, "message": "delete all success."})
     except Exception as E:
-        return JsonResponse({"state":0,"msg":str(E)})
+        return JsonResponse({"state": 0, "msg": str(E)})
