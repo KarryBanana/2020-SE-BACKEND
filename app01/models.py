@@ -17,7 +17,7 @@ class Author(models.Model):
     n_pubs = models.IntegerField(default=0)
     h_index = models.IntegerField(default=0)
     is_recorded = models.IntegerField(default=-1)
-    field = models.CharField(default="",max_length=200)
+    field = models.CharField(default="", max_length=200)
 
     class Meta:
         indexes = [
@@ -61,7 +61,7 @@ class Paper(models.Model):
     abstract = models.TextField(max_length=5000, default="")
     keywordstr = models.TextField(max_length=20000, default="")
     authornamestr = models.TextField(max_length=20000, default="")
-    field = models.CharField(default="",max_length=200,db_index=False)
+    field = models.CharField(default="", max_length=200, db_index=False)
 
     class Meta:
         indexes = [
@@ -132,7 +132,7 @@ class User(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(blank=False, null=False)
     intro = models.CharField(default="", max_length=200)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE,null=True,blank=True)
 
 
 class Follow(models.Model):
@@ -152,10 +152,17 @@ class Manager(models.Model):
 
 class SystemMessage(models.Model):
     content = models.CharField(max_length=500)
-    user = models.ForeignKey(User, on_delete=models.Model)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     type_node = models.IntegerField(default=-1)
 
 
 class UserToken(models.Model):
     user = models.OneToOneField(to='User', on_delete=models.CASCADE)
     token = models.CharField(max_length=64)
+
+
+class BrowerHistory(models.Model):
+    BHid = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+    paper = models.ForeignKey(Paper, on_delete=models.CASCADE)
+    browertime = models.DateTimeField(auto_now=True)

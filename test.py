@@ -13,22 +13,28 @@ django.setup()
 from app01.models import *
 
 
-@transaction.atomic
+@transaction.atomic #文章年份
 def main(i):
     i = int(i)
-    alist = Author.objects.all()[i:i + 100]
-    for a in alist:
+    plist = Paper.objects.all()[i:i + 100]
+    for p in plist:
         try:
-            link = AuthorOfPaper.objects.filter(author=a)[0]
-            a.field = link.paper.field
-            a.save()
+            p.year = 2010 + random.randint(1, 8)
+            p.save()
         except Exception as E:
             op = 1
-
-
-# 改到70000
+# @transaction.atomic  # 发表数计数
+# def main(i):
+#     i = int(i)
+#     alist = Author.objects.all()[i:i + 100]
+#     for a in alist:
+#         length = len(AuthorOfPaper.objects.filter(author=a))
+#         a.n_pubs = length
+#         a.save()
+#
+#
 start = 0
-while start < 254000:
+while start < 37000:
     main(start)
     print(start)
     start += 100

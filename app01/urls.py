@@ -20,7 +20,6 @@ urlpatterns = [
     path('check_mail',views.check_mail),
     path('getPaperListByAid',views.getPaperListByAid),
     path('complexSearch',views.complexSearch),
-    path('test/', views.responseTest),
     path('follow_author/', views.followAuthor),
     path('collect_paper/', views.collect_paper),
     path('check_user_info/', views.check_user_info),
@@ -33,7 +32,7 @@ urlpatterns = [
     path('getAuthorInfoById',views.getAuthorInfoById),
     path('getPaperOfField',views.getPaperOfField),
     path('getAuthorOfField', views.getAuthorOfField),
-    path('Authentication',views.Authentication)
-
-
+    path('Authentication',views.Authentication),
+    path('getBrowerHistory',views.getBrowerHistory),
+    path('check_user', views.check_user),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

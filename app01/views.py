@@ -170,13 +170,31 @@ def login(request):
     return JsonResponse(response)
 
 
-# 文章详情页（从搜索或其他界面进入）
+# 文章详情页（从搜索或其他界面进入） 从这里创建浏览记录
 @require_http_methods(["GET"])
 def getPaperInfoByID(request):
     try:
+        uid = request.GET['uid']
+        token = request.GET['token']
+        user = User.objects.get(uid=uid)
         pid = request.GET['pid']
+        print(pid)
         paper = Paper.objects.get(pid=pid)
-        paper.venue_name = paper.venue.normalized_name
+        Token = UserToken.objects.get(user=user)
+        if Token.token != token:
+            return JsonResponse({"msg": "you token is wrong,please login in again.", "state": 0})
+        if BrowerHistory.objects.filter(user=user, paper=paper):
+            history = BrowerHistory.objects.filter(user=user, paper=paper)[0]
+            history.save()
+        else:
+            history = BrowerHistory()
+            history.paper = paper
+            history.user = user
+            history.save()
+        if paper.venue:
+            paper.venue_name = paper.venue.normalized_name
+        else:
+            paper.venue_name = ""
         res = object_to_json(paper)
         authors = []
         AutherList = AuthorOfPaper.objects.filter(paper=paper)
@@ -418,11 +436,11 @@ def hot_paper(request):
 def Authentication(request):
     response = {}
     try:
-        name = request.GET['name']
+        uid = request.GET['uid']
+        user = User.objects.get(uid=uid)
         token = request.GET['token']
-        u = User.objects.get(name=name)
-        if u:
-            if UserToken.objects.get(user=u, token=token):
+        if user:
+            if UserToken.objects.get(user=user, token=token):
                 response['state'] = 1
                 response['msg'] = "起飞！"
             else:
@@ -485,17 +503,36 @@ def cancel_collect(request):
 
 def getAuthorInfoById(request):
     aid = request.POST.get('aid')
+    print(aid)
     try:
         a = Author.objects.get(aid=aid)
         author = object_to_json(a)
         author.pop('is_recorded')
+        author.pop('normalized_name')
+        author.pop('org')
         links = AuthorOfPaper.objects.filter(author=a)
         papers = []
+        organization = ""
+        year = [0, 0, 0, 0, 0, 0, 0, 0]
+        if AuthorOrg.objects.filter(author=a):
+            organization = AuthorOrg.objects.filter(author=a)[0].org
+        co_authors = []
         for link in links:
             paper = {'pid': link.paper.pid, 'title': link.paper.title, 'n_citation': link.paper.n_citation,
                      'year': link.paper.year}
+            authors_of_the_paper = AuthorOfPaper.objects.filter(paper=link.paper)
+            for co_au in authors_of_the_paper:
+                co_authors.append(co_au.id)
+            if 2011 <= link.paper.year <= 2018:
+                year[link.paper.year - 2011] += 1
             papers.append(paper)
-        return JsonResponse({"authorInfo": author, "papers": papers})
+        author['organization'] = organization
+        interests = []
+        interestList = Interests.objects.filter(author=a)
+        for item in interestList:
+            interests.append({"interest": item.field, "weight": item.weight})
+        return JsonResponse({"authorInfo": author, "papers": papers, "interests": interests,
+                             "n_pubs_each_year": year, "co_authors": co_authors})
     except Exception as E:
         return JsonResponse({"msg": str(E), "state": 0})
 
@@ -584,3 +621,40 @@ def getseed(str):
         return seed_of_material
     if str == "Engineering":
         return seed_of_engieering
+
+
+def getBrowerHistory(request):
+    uid = request.GET['uid']
+    token = request.GET['token']
+    user = User.objects.get(uid=uid)
+    if UserToken.objects.filter(user=user, token=token):
+        history_list = BrowerHistory.objects.filter(user=user)
+        histories = []
+        for item in history_list:
+            history = {"pid": item.paper.pid, "title": item.paper.title, "time": item.browertime}
+            histories.append(history)
+        return JsonResponse({"res": histories, "state": 1})
+    else:
+        return JsonResponse({"msg": "your token is wrong,please login in again.", "state": 0})
+
+
+@require_http_methods(["POST"])
+def check_user(request):  # 注册
+    response = {}
+    try:
+        name = request.POST.get('name')
+        print("name", name)
+        password = request.POST.get('password')
+        print(password)
+        if User.objects.filter(name=name):
+            response['msg'] = "repetitive username"
+            response['error_num'] = 1
+            response['state'] = 0
+        else:
+            response['msg'] = "success"
+            response['state'] = 1
+    except Exception as e:
+        response['msg'] = str(e)
+        response['error_num'] = -1
+        response['state'] = 0
+    return JsonResponse(response)
