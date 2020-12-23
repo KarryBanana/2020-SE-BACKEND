@@ -339,7 +339,7 @@ def cancel_follow(request):
         return JsonResponse(response)
 
 
- def followed(request):
+def followed(request):
     try:
         uid = request.POST.get('uid')
         user = User.objects.get(uid=uid)
