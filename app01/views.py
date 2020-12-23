@@ -323,7 +323,47 @@ def followAuthor(request):
     except Exception as E:
         return HttpResponse("Error occurs!")
 
+ 
+def cancel_follow(request):
+    uid = request.POST.get('uid')
+    aid = request.POST.get('aid')
+    try:
+        user = User.objects.get(uid=uid)
+        follow_author = Author.objects.get(aid=aid)
+        followed = Follow.objects.get(user=user, followed_author=follow_author)
+        followed.delete()
+        return JsonResponse({"state": 1, "msg": "cancel follow success!"})
+    except Exception as E:
+        response = {'msg': "cancel follow failed", 'state': 0}
+        print(E)
+        return JsonResponse(response)
 
+
+ def followed(request):
+    try:
+        uid = request.POST.get('uid')
+        user = User.objects.get(uid=uid)
+        user_follow = Follow.objects.filter(user=user)
+        ret = []
+        for au in user_follow:
+            author = Author.objects.get(aid=au.followed_author_id)
+            tmp = {}
+            tmp['aid'] = author.aid
+            tmp['name'] = author.name
+            tmp['field'] = author.field
+            tmp['h_index'] = author.h_index
+            if author.org:
+                    tmp['org'] = author.org
+            else:
+                tmp['org'] = ""
+            ret.append(tmp)
+        return JsonResponse(ret, safe=False)
+    except Exception as E:
+        response = {'msg': "show followed error!", 'state': 0}
+        print(E)
+        return JsonResponse(response)
+    
+    
 def collect_paper(request):
     try:
         uid = request.POST.get('uid')
