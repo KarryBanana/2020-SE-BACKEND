@@ -20,6 +20,8 @@ urlpatterns = [
     path('getPaperListByAid',views.getPaperListByAid),
     path('complexSearch',views.complexSearch),
     path('follow_author/', views.followAuthor),
+    path('show_followed/', views.followed),
+    path('cancel_follow/', views.cancel_follow),
     path('collect_paper/', views.collect_paper),
     path('check_user_info/', views.check_user_info),
     path('edit_user_info/', views.edit_user_info),
