@@ -265,7 +265,7 @@ def complexSearch(request):
             for key in search['author']['keys']:
                 papers = papers.filter(authornamestr__contains=key)
         elif method_of_author == "or":
-            p = Q()select app01_author.name,app01_author.aid from app01_author JOIN (app01_authorofpaper JOIN app01_paper ON (app01_authorofpaper.paper_id=app01_paper.pid)) ON app01_author.aid=app01_authorofpaper.author_id and app01_author.field="
+            p = Q()
             for key in search['author']['keys']:
                 p = p | Q(authornamestr__contains=key)
             papers = papers.filter(p)
