@@ -364,6 +364,49 @@ def followed(request):
         return JsonResponse(response)
 
 
+# 发邮件验证
+def veri_author(request):
+    try:
+        aid = request.POST.get('aid')
+        uid = request.POST.get('uid')
+        token = request.POST.get('token')
+        msg = request.POST.get('message')
+        user = User.objects.get(uid=uid)
+        if UserToken.objects.get(user=user, token=token):
+            email = user.email
+            send_mail(
+                subject='Robin',
+                message=msg,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[email]
+            )
+            response = {'msg': "verify success!", 'status': 1}
+            return JsonResponse(response)
+    except Exception as E:
+        response = {'msg': "verify failed", 'status': 0}
+        print(E)
+        return JsonResponse(response)
+
+
+# 验证成功
+def verify_success(request):
+    try:
+        aid = request.POST.get('aid')
+        uid = request.POST.get('uid')
+        token = request.POST.get('token')
+        user = User.objects.get(uid=uid)
+        if UserToken.objects.get(user=user, token=token):
+            user.author = aid
+            user.save()
+            response = {'msg': "verify success!", 'status': 1}
+            return JsonResponse(response)
+    except Exception as E:
+        response = {'msg': "verify error failed", 'status': 0}
+        print(E)
+        return JsonResponse(response) 
+
+
+
 def collect_paper(request):
     try:
         uid = request.POST.get('uid')
