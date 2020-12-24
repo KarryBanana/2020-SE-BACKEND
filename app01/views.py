@@ -433,6 +433,7 @@ def check_user_info(request):
         user = User.objects.get(uid=uid)
         response = {}
         response['name'] = user.name
+        response['pwd'] = user.password
         response['email'] = user.email
         response['intro'] = user.intro
         return JsonResponse(response)
@@ -448,6 +449,7 @@ def edit_user_info(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         intro = request.POST.get('intro')
+        pwd = request.POST.get('pwd')
         if User.objects.filter(name=name).exists():
             return JsonResponse({"res": 0, "msg": "name exists!"})
         if User.objects.filter(email=email).exists():
@@ -456,6 +458,7 @@ def edit_user_info(request):
         user.name = name
         user.email = email
         user.intro = intro
+        user.password = pwd
 
         user.save()  # 保存修改
         return JsonResponse({"res": 1, "msg": "edit success!"})
