@@ -942,3 +942,14 @@ def guozong(request):
         result.append(tmp)
     con.close()
     return HttpResponse(json.dumps(result), content_type="application/json")
+
+def topic_orgs(request):
+    con=pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin", charset="utf8")
+    cur=con.cursor()
+    topic=request.POST["topic"]
+    sql='select count(*) from app01_author JOIN app01_authororg ON (app01_author.aid=app01_authororg.author_id and app01_authororg.org!="") where app01_author.field="'+topic+'"'
+    cur.execute(sql)
+    for row in cur:
+        tmp=row[0]
+    con.close()
+    return HttpResponse(json.dumps(tmp), content_type="application/json")

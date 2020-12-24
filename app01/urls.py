@@ -46,6 +46,7 @@ urlpatterns = [
     path('deleteAllBrowerHistory',views.deleteAllBrowerHistory),
     path('related_paper',views.related_paper),
     path('refer_string/',views.refer_string),
-    path('guozong/',views.guozong)
+    path('guozong/',views.guozong),
+    path('topic_orgs/',views.topic_orgs)
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
