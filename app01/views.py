@@ -864,3 +864,81 @@ def related_paper(request):
         related.append({"pid":p.pid,"title":p.title,"year":p.year,"abstract":p.abstract[:50],"author":{"name":author.name,"aid":author.aid}})
     return JsonResponse(related,safe=False)
 
+def refer_string(request):
+    con=pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin", charset="utf8")
+    cur=con.cursor()
+    pid=request.GET["pid"]
+    authors=[]
+    refer="[1]"
+    author=""
+    title=""
+    ps=""
+    year=0
+    start=0
+    end=0
+    sql='select app01_author.name from app01_paper JOIN (app01_author JOIN app01_authorofpaper ON app01_author.aid=app01_authorofpaper.author_id) ON app01_paper.pid=app01_authorofpaper.paper_id where pid="'+pid+'"'
+    cur.execute(sql)
+    for row in cur:
+        authors.append(row[0])
+    for i in range(0,len(authors)):
+        author+=authors[i]
+        if i!=len(authors)-1:author+=","
+    author+="."
+    sql='select title,year,page_start,page_end from app01_paper where pid="'+pid+'"'
+    cur.execute(sql)
+    for row in cur:
+        title=row[0]
+        year=row[1]
+        start=row[2]
+        end=row[3]
+    sql='select count(*) from app01_paper where issue!="" and pid="'+pid+'"'
+    cur.execute(sql)
+    for row in cur:
+        res=row[0]
+    if res==0:
+        sql='select publisher from app01_paper where pid="'+pid+'"'
+        cur.execute(sql)
+        for row in cur:
+            ps=row[0]
+        refer+=author+title+"[M]"+"."+ps+","+str(year)+":"+str(start)+"-"+str(end)
+    elif res==1:
+        sql='select volume,issue from app01_paper where pid="'+pid+'"'
+        cur.execute(sql)
+        for row in cur:
+            volume=row[0]
+            issue=row[1]
+        refer+=author+title+"[J]"+"."+str(year)+","+str(volume)+"("+issue+"):"+str(start)+"-"+str(end)
+    con.close()
+    return HttpResponse(json.dumps(refer), content_type="application/json")
+
+def guozong(request):
+    fields=["Biology","Chemistry","Computer Science","Engineering","Material Science","Mathematics","Medicine","Physics","Political Science"]
+    con=pymysql.connect(host="39.97.101.50", port=3306, user="root", password="123456", database="robin", charset="utf8")
+    cur=con.cursor()
+    field1=request.POST["field1"]
+    field2=request.POST["field2"]
+    field3=request.POST["field3"]
+    field4=request.POST["field4"]
+    result=[]
+    sql='select title,pid,field from app01_paper where year>=2014 and year<=2018 and field="'+field1+'"order by n_citation desc limit 1'
+    cur.execute(sql)
+    for row in cur:
+        tmp={"Title":row[0],"PaperId":row[1],"Field":row[2]}
+        result.append(tmp)
+    sql='select title,pid,field from app01_paper where year>=2014 and year<=2018 and field="'+field2+'"order by n_citation desc limit 1'
+    cur.execute(sql)
+    for row in cur:
+        tmp={"Title":row[0],"PaperId":row[1],"Field":row[2]}
+        result.append(tmp)
+    sql='select title,pid,field from app01_paper where year>=2014 and year<=2018 and field="'+field3+'"order by n_citation desc limit 1'
+    cur.execute(sql)
+    for row in cur:
+        tmp={"Title":row[0],"PaperId":row[1],"Field":row[2]}
+        result.append(tmp)
+    sql='select title,pid,field from app01_paper where year>=2014 and year<=2018 and field="'+field4+'"order by n_citation desc limit 1'
+    cur.execute(sql)
+    for row in cur:
+        tmp={"Title":row[0],"PaperId":row[1],"Field":row[2]}
+        result.append(tmp)
+    con.close()
+    return HttpResponse(json.dumps(result), content_type="application/json")
